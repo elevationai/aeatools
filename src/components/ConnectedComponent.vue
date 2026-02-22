@@ -71,6 +71,8 @@ async function sendAndRead(command) {
         const escaped = lt.data.match(/.{2}/g).map(hex => /02|03|10/.test(hex) ? '10' + hex : hex).join('');
         const data_bytes = new Uint8Array(escaped.match(/.{2}/g).map(byte => parseInt(byte, 16)))
         command = Uint8Array.from([2, ...string2bytes(command.slice(0, 8)), ...data_bytes, 3])
+      } else {
+        command = `\x02${command}\x03`
       }
       console.log(lt);
     }
